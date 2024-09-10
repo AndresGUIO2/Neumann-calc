@@ -1,0 +1,146 @@
+body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Lato', sans-serif;
+  background-color: #2E3440;
+  color: #D8DEE9;
+}
+
+.App {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+}
+
+h1 {
+  color: #ECEFF4;
+  margin-bottom: 20px;
+}
+
+.calculator {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: #3B4252;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.input-section {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+  justify-content: center;
+}
+
+input {
+  padding: 10px;
+  border: 1px solid #4C566A;
+  border-radius: 5px;
+  font-size: 14px;
+  width: 250px;
+  background-color: #434C5E; 
+  color: #D8DEE9;
+}
+
+button {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  background-color: #EBCB8B;
+  color: #3B4252;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  font-size: 14px;
+}
+
+button:hover {
+  background-color: #ffe5b0;
+}
+
+.status-label {
+  margin-bottom: 20px;
+  color: #EBCB8B;
+  font-size: 18px;
+}
+
+.components-grid {
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  gap: 20px;
+  width: 100%;
+}
+
+.left-column {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.component {
+  padding: 15px;
+  border: 1px solid #4C566A;
+  border-radius: 8px;
+  background-color: #4C566A;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.component h2 {
+  color: #ECEFF4;
+  margin-bottom: 10px;
+}
+
+.memory {
+  max-height: 400px;
+  overflow-y: auto;
+}
+
+.memory table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.memory th {
+  background-color: #EBCB8B; 
+  color: #3B4252;
+}
+
+.memory td {
+  border: 1px solid #4C566A;
+  padding: 8px;
+  text-align: center;
+  font-size: 13px;
+  background-color: #434C5E;
+  color: #ECEFF4;
+}
+
+/* Añade estilos adicionales para las filas activas */
+.memory .active {
+  background-color: #A3BE8C; 
+}
+
+.component.active {
+  border: 2px solid #EBCB8B;
+  background-color: #4C566A;
+}
+
+.control-unit .register.active {
+  border-color: #A3BE8C; /* Resalta los registros activos */
+  background-color: #5E81AC;
+}
+
+.alu.active {
+  border-color: #BF616A; /* Resalta ALU cuando está activa */
+}
+
+.pc.active,
+.mar.active,
+.ir.active,
+.ibr.active {
+  color: #A3BE8C;
+  font-weight: bold;
+}
