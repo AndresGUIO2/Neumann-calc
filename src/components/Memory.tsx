@@ -1,8 +1,8 @@
 import React from 'react';
 
 interface MemoryProps {
-  content: { [key: string]: string | null }; // Utilizamos un objeto en lugar de un array
-  activeCell: string | null; // Cambiamos a un string que representa la dirección activa
+  content: { [key: string]: string | null };
+  activeCell: string | null;
 }
 
 const Memory: React.FC<MemoryProps> = ({ content, activeCell }) => {

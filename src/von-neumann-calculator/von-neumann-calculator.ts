@@ -4,17 +4,35 @@ import { ControlUnit } from "./control-unit";
 import { roundTo05 } from "../utils/round-to-05";
 import { IComponentsState } from "../interfaces/components-state";
 
+/* The `VonNeumannCalculator` class in TypeScript represents a calculator that loads programs,
+processes expressions, and executes instructions using components like Memory, ALU, and ControlUnit. */
 export class VonNeumannCalculator {
     private memory: Memory;
     private alu: ALU;
     private controlUnit: ControlUnit;
 
+    /**
+     * The constructor initializes instances of Memory, ALU, and ControlUnit classes.
+     */
     constructor() {
         this.memory = new Memory();
         this.alu = new ALU();
         this.controlUnit = new ControlUnit();
     }
 
+    /**
+     * The function `loadProgram` processes an array of expressions, converting them to binary and
+     * storing them in memory.
+     * @param {string[]} expression - An array of strings representing an arithmetic expression or
+     * program instructions.
+     * @param {IComponentsState[]} steps - steps is an array of IComponentsState objects that represent
+     * the state of components in a program execution. The function loadProgram takes an array of
+     * string expressions and updates the steps array based on the processing of these expressions. It
+     * checks each expression element for validity and converts them into binary format or performs
+     * specific actions
+     * @returns The `loadProgram` function returns a boolean value - `true` if the program loading was
+     * successful, and `false` if there was an issue with the input or during the loading process.
+     */
     loadProgram(expression: string[], steps: IComponentsState[]): boolean {
         for (let i = 0; i < expression.length; i++) {
             if (isNaN(parseInt(expression[i])) && !["+","-","/","*",".","SAVE","END"].includes(expression[i])) {
@@ -78,7 +96,7 @@ export class VonNeumannCalculator {
         let aux2 = aux;
 
         for (let i = 0; i < expression.length; i++) {
-            let address = "0".repeat(4 - (i).toString(2).length) + (i).toString(2);
+            const address = "0".repeat(4 - (i).toString(2).length) + (i).toString(2);
 
             if (address == aux) {
                 break;
@@ -95,6 +113,13 @@ export class VonNeumannCalculator {
         return true;
     }
 
+    /**
+     * The `run` function executes a series of steps by fetching, decoding, and executing instructions
+     * until completion.
+     * @param {IComponentsState[]} steps - The `steps` parameter in the `run` method is an
+     * array of `IComponentsState` objects. These objects represent the current state of various
+     * components in the system, such as the memory, ALU (Arithmetic Logic Unit), and control unit.
+     */
     run(steps: IComponentsState[]): void {
         this.controlUnit.fetch(this.memory, steps);
         let instruction = this.controlUnit.decode(steps);

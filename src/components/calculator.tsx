@@ -6,6 +6,14 @@ import { VonNeumannCalculator } from "../von-neumann-calculator/von-neumann-calc
 import { convertExpression } from "../utils/expression-converter";
 import { IComponentsState } from "../interfaces/components-state";
 
+/**
+ * The `Calculator` function in TypeScript React sets up a simulation of a Von Neumann calculator with
+ * step-by-step execution and memory visualization.
+ * @returns The `Calculator` component is being returned. It is a functional component in React that
+ * renders a calculator interface. The component includes input for entering instructions, buttons for
+ * executing, navigating through steps, and displays various components like ALU, ControlUnit, and
+ * Memory based on the current step data.
+ */
 const Calculator: React.FC = () => {
   const initialSteps: IComponentsState[] = [
     {
@@ -61,6 +69,12 @@ const Calculator: React.FC = () => {
   const [inputValue, setInputValue] = useState("");
   const [hasExecuted, setHasExecuted] = useState(false);
 
+  /**
+   * The `handleExecute` function in TypeScript React initializes a Von Neumann calculator, converts an
+   * input expression, loads a program, runs it, and sets a flag to prevent multiple executions.
+   * @returns If the `hasExecuted` variable is true, the `handleExecute` function will return early and
+   * not execute the rest of the code block.
+   */
   const handleExecute = () => {
     if (hasExecuted) return;
 

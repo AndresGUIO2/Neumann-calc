@@ -3,6 +3,8 @@ import { ALU } from "./alu";
 import { Memory } from "./memory";
 import { IComponentsState } from "../interfaces/components-state";
 
+/* The `ControlUnit` class in TypeScript represents a control unit for a computer system that performs
+fetch, decode, execute operations with memory and ALU interactions. */
 export class ControlUnit {
     private ir: Register;
     private pc: Register;
@@ -16,6 +18,18 @@ export class ControlUnit {
         this.ibr = new Register(); // Instruction Buffer Register
     }
 
+   /**
+    * The fetch function performs a multi-step cycle to retrieve instructions from memory and update
+    * the program counter.
+    * @param {Memory} memory - The `memory` parameter in the `fetch` function represents the memory
+    * component of a computer system. It is used to read data from memory locations during the fetch
+    * cycle of the instruction execution process. The `fetch` function takes a series of steps as input
+    * and updates the state of various components based on
+    * @param {IComponentsState[]} steps - The `steps` parameter in the `fetch` function is an array of
+    * `IComponentsState` objects representing the state of various components in a system. Each step in
+    * the fetch cycle involves updating and modifying these component states to perform the necessary
+    * operations. The function progresses through the fetch cycle by updating the
+    */
     fetch(memory: Memory, steps: IComponentsState[]): void {
         
         // First step of the fetch cycle
@@ -70,6 +84,16 @@ export class ControlUnit {
         steps.push(step3);
     }
 
+    
+    /**
+     * The `decode` function processes a series of steps to decode instructions and
+     * update the state of components accordingly.
+     * @param {IComponentsState[]} steps - The `decode` function takes an array of `IComponentsState`
+     * objects as input, represented by the `steps` parameter. The function performs a series of
+     * operations on the last element of the `steps` array and then returns the value of the `ir`
+     * property of that element.
+     * @returns The `decode` function is returning the value of `this.ir.read()`.
+     */
     decode(steps: IComponentsState[]): string {
         
         // First step of the decode cycle
@@ -113,6 +137,29 @@ export class ControlUnit {
         return this.ir.read();
     }
 
+    /**
+     * The function executes instructions using an Arithmetic Logic Unit (ALU) and Memory components in
+     * a simulated computer system, handling different opcodes for operations like addition,
+     * subtraction, division, multiplication, and memory storage.
+     * @param {string} instruction - The `execute` function use an Arithmetic Logic Unit (ALU) and Memory components.
+     * The function takes an instruction as input and performs different operations based on the opcode
+     * extracted from the instruction.
+     * @param {ALU} alu - ALU (Arithmetic Logic Unit) is a component of a CPU that performs arithmetic
+     * and logical operations on the operands provided by the instruction.
+     * @param {Memory} memory - Memory is an object representing the memory unit in a computer system.
+     * It stores data and instructions that are being processed by the CPU. The `memory` object 
+     * has methods `read(address)` to retrieve data from a specific memory address and
+     * `write(address, data)` to store data at a specific
+     * @param {IComponentsState[]} steps - steps is an array of IComponentsState objects representing
+     * the state of various components in the system at different steps of the execution cycle. Each
+     * IComponentsState object contains properties indicating the status of different components such
+     * as registers, memory, and control signals. The array keeps track of the state of the components
+     * as
+     * @returns The `execute` function returns a boolean value. It returns `true` if the execution of
+     * the instruction was successful without encountering any errors, and it returns `false` if there
+     * was an error during execution or if the program needs to stop due to specific conditions like
+     * overflow, underflow, or division by zero.
+     */
     execute(instruction: string, alu: ALU, memory: Memory, steps: IComponentsState[]): boolean {
 
         let opcode = instruction.slice(0, 4);
@@ -281,6 +328,21 @@ export class ControlUnit {
         return true;
     }
 
+    /**
+     * The function stores the current state of components in memory at a specified address and updates
+     * the address memory state.
+     * @param {Memory} memory - Memory is an object representing the memory unit in a computer system.
+     * It stores data and instructions that are currently being processed by the CPU.
+     * @param {ALU} alu - ALU stands for Arithmetic Logic Unit. It is a fundamental component of a
+     * computer's central processing unit (CPU) that performs arithmetic and logical operations on
+     * data.
+     * @param {string} address - The `address` parameter in the `store` function is a string that
+     * represents the memory address where the data will be stored.
+     * @param {IComponentsState} step - `step` is an object representing the current state of the
+     * components in the system. It contains information such as the address of the memory being
+     * accessed and other relevant data for the operation being performed.
+     * @returns The function `store` is returning a boolean value `true`.
+     */
     store(memory: Memory, alu: ALU, address: string, step: IComponentsState): boolean {
         alu.save(memory, address, step);
         
