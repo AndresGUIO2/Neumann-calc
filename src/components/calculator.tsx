@@ -73,21 +73,23 @@ const Calculator: React.FC = () => {
 
   const handleExecute = () => {
     if (hasExecuted) return;
-
+  
     const vonNeumannCalculator = new VonNeumannCalculator();
     const expression = convertExpression(inputValue);
-
+  
     const newSteps = [...initialSteps];
     setSteps(newSteps);
     setCurrentStepIndex(0);
-
+  
     if (vonNeumannCalculator.loadProgram(expression, newSteps)) {
       vonNeumannCalculator.run(newSteps);
       setSteps(newSteps);
+      setHasExecuted(true); // Marca que ya se ha ejecutado
     } else {
       alert("Error al cargar el programa. Verifica la expresión ingresada.");
     }
   };
+  
 
   const handleNext = () => {
     if (currentStepIndex < steps.length - 1) {
