@@ -17,7 +17,7 @@ import { IComponentsState } from "../interfaces/components-state";
 const Calculator: React.FC = () => {
   const initialSteps: IComponentsState[] = [
     {
-      display: "",
+      display: "", // Este es el atributo que se mostrará en el input cuando la calculadora se esté ejecutando.
       memory: {
         "0000": null,
         "0001": null,
@@ -67,14 +67,10 @@ const Calculator: React.FC = () => {
   const [steps, setSteps] = useState<IComponentsState[]>(initialSteps);
   const [currentStepIndex, setCurrentStepIndex] = useState(0);
   const [inputValue, setInputValue] = useState("");
+  const [inputReadOnly, setInputReadOnly] = useState(false);
   const [hasExecuted, setHasExecuted] = useState(false);
+  const [isButtonDisabled, setButtonDisabled] = useState(true);
 
-  /**
-   * The `handleExecute` function in TypeScript React initializes a Von Neumann calculator, converts an
-   * input expression, loads a program, runs it, and sets a flag to prevent multiple executions.
-   * @returns If the `hasExecuted` variable is true, the `handleExecute` function will return early and
-   * not execute the rest of the code block.
-   */
   const handleExecute = () => {
     if (hasExecuted) return;
 
@@ -88,7 +84,6 @@ const Calculator: React.FC = () => {
     if (vonNeumannCalculator.loadProgram(expression, newSteps)) {
       vonNeumannCalculator.run(newSteps);
       setSteps(newSteps);
-      setHasExecuted(true); // Marca como ejecutado para evitar múltiples ejecuciones
     } else {
       alert("Error al cargar el programa. Verifica la expresión ingresada.");
     }
@@ -106,6 +101,11 @@ const Calculator: React.FC = () => {
     }
   };
 
+  // Función para recargar la página
+  const handleRefresh = () => {
+    window.location.reload();
+  };
+
   const currentStep = steps[currentStepIndex];
 
   return (
@@ -114,19 +114,44 @@ const Calculator: React.FC = () => {
         <input
           type="text"
           placeholder="Ingresa una instrucción (e.g., 1+1)"
-          value={inputValue}
-          onChange={(e) => setInputValue(e.target.value)}
+          value={currentStep.display ? currentStep.display : inputValue}
+          onChange={(e) => {
+            const regex = /^(?![-+*/\.])(?!.*[-+*/\.]{2})[-+*/0-9\s]*(?:\.[0-9]+[-+*/0-9\s]*)*$/;
+
+            //const regex = /^(?!\.)[-+*/0-9\s]*(?:\.[0-9]+[-+*/0-9\s]*)*$/;
+
+            if (regex.test(e.target.value) || e.target.value === "") {
+              setInputValue(e.target.value);
+              setButtonDisabled(e.target.value === "" ? true : false);
+            } else {
+              e.stopPropagation();
+            }
+          }}
+          disabled={inputReadOnly || hasExecuted} // Si se ejecuta, el input es solo de lectura
         />
-        <button onClick={handleExecute}>Ejecutar</button>
-        <button onClick={handlePrev} disabled={currentStepIndex === 0}>
+
+        <button
+          onClick={() => {
+            handleExecute();
+            setInputReadOnly(true);
+          }}
+          disabled={isButtonDisabled}
+        >
+          Ejecutar
+        </button>
+        <button
+          onClick={handlePrev}
+          disabled={currentStepIndex === 0 || isButtonDisabled}
+        >
           Atrás
         </button>
         <button
           onClick={handleNext}
-          disabled={currentStepIndex === steps.length - 1}
+          disabled={currentStepIndex === steps.length - 1 || isButtonDisabled}
         >
           Siguiente
         </button>
+        <button onClick={handleRefresh}>Refrescar</button>
       </div>
       <div className="components-grid">
         <div className="left-column">
